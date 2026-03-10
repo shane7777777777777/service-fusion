@@ -1,27 +1,35 @@
 ---
-description: "Morning operations briefing — today's jobs, missed calls, open estimates, dispatch capacity, on-call tech"
+description: "Morning operations briefing — today's jobs, open estimates, technician availability"
 allowed-tools:
   - "mcp__servicefusion__*"
 ---
 
 # Morning Operations Briefing
 
-Pull a complete morning briefing from Service Fusion for Phoenix Electric.
+Pull a morning briefing from Service Fusion for Phoenix Electric.
 
 ## Instructions
 
 Execute these API calls in order, then format as an executive summary:
 
-1. **Today's Jobs:** Call `sf_get_daily_job_summary` with today's date (YYYY-MM-DD format). Report total jobs, breakdown by status (Pending/Scheduled/Dispatched/Working/Completed), and list any Urgent/High priority jobs.
+1. **Today's Jobs:** Call `servicefusion_list_jobs` with date filters if available. Report total jobs and breakdown by status.
 
-2. **Missed Calls:** Call `sf_get_missed_calls` with `since` set to the last business day (skip weekends). Report count and list caller info.
+2. **Open Estimates:** Call `servicefusion_list_estimates` with `filters[status]=Open`. Report count and any notable amounts.
 
-3. **Open Estimates:** Call `sf_list_estimates` with `status: "Open"`. Report count and total dollar value if available.
+3. **Technicians:** Call `servicefusion_list_technicians` to see who's available.
 
-4. **Dispatch Capacity:** Call `sf_get_capacity` with today's and tomorrow's date. Report available slots.
+4. **Calendar Tasks:** Call `servicefusion_list_calendar_tasks` for scheduled tasks.
 
-5. **On-Call Technician:** Call `sf_get_on_call_technician`. Report who's on call.
+5. **System Health:** Call `servicefusion_health` to confirm API connectivity.
 
 ## Output Format
 
 Present as a clean summary table with sections for each area. Highlight urgent items. End with recommended actions for the day.
+
+## Limitations (SF v1 API)
+
+The following briefing items are NOT available via API:
+- **Missed calls** — telecom endpoints not available
+- **Dispatch capacity** — dispatch endpoints not available
+- **On-call technician** — not available
+- Check the SF dashboard for these items.
